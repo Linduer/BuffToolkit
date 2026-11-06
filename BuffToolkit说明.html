@@ -615,6 +615,18 @@ hr{border:none;border-top:1px dashed var(--line);margin:36px 0}
 </li>
 <li>跑之前<strong>关掉 Excel</strong>（台账被占用会中止）。</li>
 </ol>
+<p><strong>卡 3：自动开炉（Beta）</strong></p>
+<div class="callout warn"><b>⚠️ 注意</b><strong>先读这段</strong>：自动开炉直接操作你的 Steam 账号执行汰换合同，<strong>不可逆</strong>（10 件材料炼掉就无法恢复），且 Steam 自动化属灰色地带，账号风控风险自担。只开「配料寻优」刚排出来的炉。Beta 期间有问题联系作者 QQ 916182191。</div>
+<p>用法（三道闸，一步都不能跳）：</p>
+<ol>
+<li>「查看炉单」：列出最近一次炉单——生成时间、<strong>账号</strong>、共几炉、每炉什么内容。令牌自动跟随炉单上的账户，不会用错号。</li>
+<li>填炉号 → 「预演（不发请求）」：连 Steam 读实时库存，逐件校验（品质可炼 / 磨损与炉单一致 / 不在保护期 / 无重复 / 件数 = 10），列出这 10 件具体是哪几件。<strong>任何一项不过就中止，不会发请求。</strong></li>
+<li>预演通过后，在「键入炉号确认」框<strong>再键入一次炉号</strong>，才解锁「真开炉」按钮；点击后还有一次弹窗确认。</li>
+<li>真开时程序<strong>发请求前会重新连 GC 重校验一遍</strong>——预演之后库存变过的炉（比如材料被送走了）会被自动拦下。被拦是保护你，不是 bug。</li>
+<li>开完看产物：页面日志 + <code>输出\steam\开炉记录_累计.json</code>（每炉一条，含产物与消耗，供对账）。</li>
+</ol>
+<p>前置条件：该账户已在「库存记录」页完成过 Steam 登录（有令牌）。令牌过期就重新登录一次。</p>
+<p><strong>开炉时报 <code>LoggedInElsewhere</code>？</strong> 这个号正在别处登录 Steam（电脑客户端 / 手机）。开炉用的会话要求"独占"，把其它设备的 Steam 退掉再试。</p>
 <h3 id="s13">3.6 订阅管理</h3>
 <ul>
 <li><strong>订阅状态</strong>卡：持有人 / 到期 / 本月炼金次数剩余；未激活时显示「未激活 + 原因」。</li>
