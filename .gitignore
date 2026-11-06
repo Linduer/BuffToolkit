@@ -1,0 +1,12 @@
+# 运行时产生的本机文件，不要提交
+steam_probe/配置.json
+steam_probe/配置*.json
+!steam_probe/配置.example.json
+爬虫配置_*.json
+*台账*.xlsx
+实时炼金配方.xlsx
+输出/
+日志/
+缓存/
+__pycache__/
+*.pyc

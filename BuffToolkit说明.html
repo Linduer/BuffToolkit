@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BuffToolkit 使用说明（CS 炼金工具箱）</title>
+<style>
+:root{--fg:#1f2328;--muted:#57606a;--bg:#fff;--card:#f6f8fa;--line:#d0d7de;--blue:#0969da;--warn-bg:#fff8c5;--warn-line:#d4a72c;--tip-bg:#dafbe1;--tip-line:#1a7f37;--code-bg:#0d1117;--code-fg:#e6edf3}
+*{box-sizing:border-box}
+body{margin:0;color:var(--fg);background:var(--bg);font:16px/1.75 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:32px 24px 80px}
+h1{font-size:30px;line-height:1.3;border-bottom:3px solid var(--blue);padding-bottom:12px;margin:8px 0 24px}
+h2{font-size:23px;margin:48px 0 14px;padding:8px 14px;background:var(--card);border-left:5px solid var(--blue);border-radius:6px}
+h3{font-size:19px;margin:30px 0 10px;color:#0a3d91}
+h4{font-size:16px;margin:20px 0 8px}
+p{margin:10px 0}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#eff1f3;padding:2px 6px;border-radius:5px;font-size:14.5px;font-family:Consolas,"Microsoft YaHei",monospace;word-break:break-all}
+pre{background:var(--code-bg);color:var(--code-fg);padding:16px 18px;border-radius:8px;overflow-x:auto;line-height:1.6}
+pre code{background:none;color:inherit;padding:0;font-size:14.5px;word-break:normal}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:15px}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+tr:nth-child(even) td{background:#fafbfc}
+ul,ol{padding-left:26px}
+li{margin:6px 0}
+.callout{border-radius:8px;padding:12px 16px;margin:14px 0;border:1px solid}
+.callout.warn{background:var(--warn-bg);border-color:var(--warn-line)}
+.callout.tip{background:var(--tip-bg);border-color:var(--tip-line)}
+.callout b:first-child{display:block;margin-bottom:4px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 22px;margin:20px 0}
+.toc .t{font-weight:700;margin-bottom:6px}
+.toc ol{margin:4px 0}
+.toc ol ol{padding-left:22px}
+hr{border:none;border-top:1px dashed var(--line);margin:36px 0}
+.muted{color:var(--muted);font-size:14px}
+.top{position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:9;padding:8px 24px;font-size:14px;white-space:nowrap;overflow-x:auto}
+.top a{margin-right:14px;color:var(--fg)}
+@media print{.top{display:none}pre{white-space:pre-wrap}}
+</style>
+</head>
+<body>
+<div class="top"><a href="#s1">① 这是什么</a><a href="#s2">② 第一次用：四步走</a><a href="#s7">③ 七个页面逐个说</a><a href="#s15">④ 常见问题</a><a href="#s16">⑤ 文件都长在哪（exe 同级）</a><a href="#s17">⑥ 附录 A 命令行直调（一般用不到）</a><a href="#s18">⑦ 附录 B 计划任务（想全自动时看）</a><a href="#s19">⑧ 附录 C 收藏品编号速查</a></div>
+<div class="wrap">
+<h1>BuffToolkit 使用说明（CS 炼金工具箱）</h1>
+<div class="toc"><div class="t">目录</div><ol><li><a href="#s1">一、这是什么</a></li><li><a href="#s2">二、第一次用：四步走</a><ol><li><a href="#s3">2.1 激活订阅（订阅管理页）</a></li><li><a href="#s4">2.2 添加账户 + 抓 BUFF Cookie（配置管理页）</a></li><li><a href="#s5">2.3 配置收发邮箱（配置管理 → 邮箱配置）</a></li><li><a href="#s6">2.4 填台账（实时炼金配方.xlsx 怎么填）</a></li></ol></li><li><a href="#s7">三、七个页面逐个说</a><ol><li><a href="#s8">3.1 首页</a></li><li><a href="#s9">3.2 炼金期望计算</a></li><li><a href="#s10">3.3 材料邮件提醒</a></li><li><a href="#s11">3.4 库存记录</a></li><li><a href="#s12">3.5 开炉工具</a></li><li><a href="#s13">3.6 订阅管理</a></li><li><a href="#s14">3.7 配置管理</a></li></ol></li><li><a href="#s15">四、常见问题</a></li><li><a href="#s16">五、文件都长在哪（exe 同级）</a></li><li><a href="#s17">附录 A 命令行直调（一般用不到）</a></li><li><a href="#s18">附录 B 计划任务（想全自动时看）</a></li><li><a href="#s19">附录 C 收藏品编号速查</a></li></ol></div>
+<h2 id="s1">一、这是什么</h2>
+<p>一个 exe，所有功能都在<strong>浏览器界面</strong>里点。双击 <code>BuffToolkit.exe</code> 会启动一个只在本机的网页服务（<code>127.0.0.1</code>，外部访问不到），并自动打开浏览器。</p>
+<table>
+<thead>
+<tr>
+<th>左侧页面</th>
+<th>干什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>首页</td>
+<td>一眼看订阅 / 账户 / 发信状态，六个功能入口，最近跑过什么</td>
+</tr>
+<tr>
+<td>炼金期望计算</td>
+<td>实时拉价按利润率筛配方，勾选后直接写进台账</td>
+</tr>
+<tr>
+<td>材料邮件提醒</td>
+<td>材料到价提醒 + 期望校验：阈值、间隔、时刻表、收件人、立即执行</td>
+</tr>
+<tr>
+<td>库存记录</td>
+<td>Steam 库存同步、离线查询、缺料分析、材料核对、买卖记录、导出客户版</td>
+</tr>
+<tr>
+<td>开炉工具</td>
+<td>配料寻优（这炉怎么配）+ 主材料调价（主价改了重算副价）</td>
+</tr>
+<tr>
+<td>订阅管理</td>
+<td>密钥激活、到期时间、本月剩余炼金次数</td>
+</tr>
+<tr>
+<td>配置管理</td>
+<td>账户与 Cookie、邮箱与分发、原始 JSON</td>
+</tr>
+</tbody>
+</table>
+<p><strong>基本操作约定</strong></p>
+<ul>
+<li>双击 exe → 浏览器自动打开（默认 <code>http://127.0.0.1:8377</code>；端口被占会自动往后找，黑窗口里会打印实际地址）</li>
+<li><strong>黑窗口别关</strong>：它就是服务本体，关掉页面立刻打不开（平时最小化扔一边就行）</li>
+<li>重复双击 exe 不会打架：检测到已在运行，只会再开一个浏览器标签页</li>
+<li>页面里改的东西点「保存」就写进 <code>爬虫配置.json</code>，立即生效，不用重启</li>
+<li>长任务（计算 / 扫描 / 校验 / 同步 / 寻优）在后台跑，页面里实时刷日志，右上角有「停止」按钮；<strong>关掉浏览器标签任务也会继续</strong>，回首页「最近任务」看进度</li>
+<li>同一个任务不能同时跑两个，重复点会提示「正在运行中」</li>
+<li>顶栏右边常显订阅状态（到期 / 本月剩余次数），未激活时点它直接跳订阅管理</li>
+<li>浏览器白屏、或页面提示「服务连接失败」→ 多半是黑窗口被关了，重新双击 exe</li>
+</ul>
+<div class="callout tip"><b>提示</b>老的控制台菜单还保留着（<code>BuffToolkit.exe --cli</code>），功能与页面一致，只有排查问题和做计划任务时才用得到。下面所有操作都走浏览器。</div>
+<hr />
+<h2 id="s2">二、第一次用：四步走</h2>
+<div class="callout tip"><b>提示</b>顺序：① 激活订阅 → ② 加账户、抓 Cookie（必须）→ ③ 配邮箱（要收邮件才需要）→ ④ 填台账（配方数据）。
+每做完一步都能回页面看状态，不用一次全做完。</div>
+<h3 id="s3">2.1 激活订阅（订阅管理页）</h3>
+<p>密钥是购买时卖家发的一段 <code>BT-</code> 开头的字符，整段保存好（换机器重装还要用它重新激活）。</p>
+<ol>
+<li>双击 <code>BuffToolkit.exe</code>，浏览器打开后点左侧「订阅管理」。</li>
+<li>把密钥整段粘进输入框（前后带空格没关系，程序会自动去掉）。</li>
+<li>点「激活 / 更换密钥」→ 顶部弹出「激活成功：xxxx 到期」。</li>
+<li>上方卡片显示出 <code>持有人 / 到期 / 本月炼金次数剩余 n/m</code> 即完成。</li>
+</ol>
+<p><strong>怎么确认激活成功</strong></p>
+<ul>
+<li>顶栏右侧状态条：<code>已激活 · 持有人 · xxxx 到期 | 本月炼金剩余 n/m</code></li>
+<li>到期前 3 天，日期会变黄提醒</li>
+<li>订阅管理页的「订阅状态」卡片同样三项</li>
+</ul>
+<p><strong>三个概念</strong></p>
+<ul>
+<li><strong>到期时间</strong>：到期后所有功能被锁，续费拿新密钥按上面同样三步重新激活。</li>
+<li><strong>本月炼金次数</strong>：只有「炼金期望计算」扣一次（服务端联网计数，改系统时间刷不了）；价格提醒、期望校验、库存同步、配料寻优<strong>都不扣</strong>。</li>
+<li><strong>没网也能用</strong>：48 小时会话缓存 + 7 天离线宽限，连续断网超 7 天需联网恢复一次。</li>
+</ul>
+<h3 id="s4">2.2 添加账户 + 抓 BUFF Cookie（配置管理页）</h3>
+<p>账户名就是台账的 sheet 名，一个账户对一个 Steam 号。先建账户，再贴 Cookie。</p>
+<p><strong>第 1 步：加账户</strong></p>
+<ol>
+<li>左侧「配置管理」→ 卡片「账户与凭据」→ 点「＋ 添加账户」。</li>
+<li>填「账户名」，如 <code>客户1</code>（唯一、不能含 <code>/</code>，建议就用台账里那个名字）。</li>
+<li>「悠悠 Token」不用悠悠就留空；「SteamID64」不确定就留空（程序默认按账户名对号）。</li>
+<li>「BUFF Cookie」先空着，抓到再回来贴 → 点「保存」。</li>
+<li>表格里出现该账户，BUFF 一列显示「未填」。</li>
+</ol>
+<p><strong>第 2 步：在浏览器里抓 Cookie</strong></p>
+<div class="callout warn"><b>⚠️ 注意</b>只能在<strong>电脑浏览器</strong>上操作，手机抓不了。Cookie 等同于你的登录凭据，<strong>不要发给任何人</strong>。
+只用 Steam 通道同步库存的话可以先跳过；但<strong>价格提醒、买卖记录、炼金期望计算仍必须配 Cookie</strong>。</div>
+<ol>
+<li>浏览器（Chrome / Edge 均可）打开 <a href="https://buff.163.com">https://buff.163.com</a>，确认已登录（右上角能看到你的头像）。</li>
+<li>按 <code>F12</code> 打开开发者工具（部分笔记本要按 <code>Fn + F12</code>）。</li>
+<li>顶部点 <strong>Network（网络）</strong> 标签页（Edge 中文界面叫「网络」）。</li>
+<li>按 <code>F5</code> 刷新页面，列表里会冒出很多条请求。</li>
+<li>点列表中<strong>任意一条</strong>请求（点第一条最省事）。</li>
+<li>右侧选 <strong>Headers（标头）</strong> → 往下找 <strong>Request Headers（请求标头）</strong> 分组。</li>
+<li>找到 <code>cookie:</code> 开头那一行（很长、折成好几行是正常的）：</li>
+<li>Chrome：右键该行 → <strong>Copy value</strong></li>
+<li>Edge：右键该行 → <strong>复制值</strong></li>
+<li>注意复制的是冒号<strong>后面</strong>那整串，不含 <code>cookie:</code> 这个词。</li>
+</ol>
+<p><strong>第 3 步：贴回页面</strong></p>
+<ol>
+<li>回「配置管理」→ 账户表格里该行点「编辑」。</li>
+<li>把整条 Cookie 粘进「BUFF Cookie」框 → 点「保存」。</li>
+<li>表格 BUFF 一列变成「可用」即填对；显示「未填」说明还是空或占位符。</li>
+</ol>
+<p><strong>第 4 步：验证凭据真能用</strong></p>
+<p>去「库存记录」页 → 「同步库存 · Steam 通道」需要先登录 Steam；只想验 Cookie 的话去「买卖记录 · BUFF 通道」拉一次，能出记录就说明 Cookie 有效。</p>
+<p><strong>常见疑问</strong></p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>解答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>复制出来太长/带换行</td>
+<td>正常，整条原样粘贴即可，不要删减</td>
+</tr>
+<tr>
+<td>Cookie 多久过期</td>
+<td>不固定（通常数周）；失效时会收到「催更」邮件，或运行日志里提示预检未过</td>
+</tr>
+<tr>
+<td>怎么换新 Cookie</td>
+<td>重抓一次，「配置管理」→ 该账户「编辑」→ 只替换 Cookie → 保存</td>
+</tr>
+<tr>
+<td>多个 Steam 号怎么办</td>
+<td>「＋ 添加账户」再来一个，每个填自己的 Cookie；账户名不能重复</td>
+</tr>
+<tr>
+<td>浏览器看着登录正常，程序说失效</td>
+<td>正常——BUFF 只对行情接口校验登录态，首页不校验；以程序判断为准</td>
+</tr>
+<tr>
+<td>悠悠 Token 要不要填</td>
+<td>只跑 BUFF 可以空着；要用悠悠比价才需要（Token 各号通用，找卖家要）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="s5">2.3 配置收发邮箱（配置管理 → 邮箱配置）</h3>
+<div class="callout tip"><b>提示</b>只有要收「降价提醒 / 期望校验」邮件才需要配，Cookie 抓完可以先跳过。
+程序用「发件邮箱 + 授权码」登录 SMTP 发信，<strong>授权码不是邮箱登录密码</strong>，要到邮箱里单独生成。</div>
+<p><strong>第 1 步：生成授权码（按你的邮箱二选一）</strong></p>
+<p><strong>QQ 邮箱（<code>smtp.qq.com</code>，端口 <code>465</code>，可保持默认）</strong></p>
+<ol>
+<li>电脑浏览器登录 <a href="https://mail.qq.com">https://mail.qq.com</a></li>
+<li>右上角 <strong>设置</strong> → <strong>账户</strong></li>
+<li>页面往下滚，找到 <strong>「POP3/IMAP/SMTP服务」</strong> 区块</li>
+<li>勾选开启 <strong>「IMAP/SMTP服务」</strong>（开 POP3/SMTP 也行）→ 按提示用手机 QQ 扫码或发短信完成验证</li>
+<li>开启成功后，同一区块点 <strong>「生成授权码」</strong> → 再做一次手机验证</li>
+<li>页面显示一串 <strong>16 位字母授权码</strong>（只显示这一次）→ 立刻复制保存</li>
+</ol>
+<p><strong>163 邮箱（服务器要改成 <code>smtp.163.com</code>）</strong></p>
+<ol>
+<li>电脑浏览器登录 <a href="https://mail.163.com">https://mail.163.com</a></li>
+<li>右上角 <strong>设置</strong> → <strong>POP3/SMTP/IMAP</strong></li>
+<li>勾选开启 <strong>「IMAP/SMTP服务」</strong> → 按提示手机验证</li>
+<li>同页面找 <strong>「授权码管理」</strong> → <strong>新增授权码</strong> → 手机验证</li>
+<li>复制生成的授权码保存</li>
+</ol>
+<p><strong>第 2 步：回页面填</strong></p>
+<p>「配置管理」→ 卡片「邮箱配置」，五个框：</p>
+<table>
+<thead>
+<tr>
+<th>框</th>
+<th>填法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SMTP 服务器</td>
+<td>QQ 邮箱保持 <code>smtp.qq.com</code>；163 填 <code>smtp.163.com</code></td>
+</tr>
+<tr>
+<td>端口</td>
+<td>默认 <code>465</code>（SSL），不用改</td>
+</tr>
+<tr>
+<td>发件邮箱</td>
+<td>刚生成授权码的那个邮箱地址</td>
+</tr>
+<tr>
+<td>授权码</td>
+<td>粘贴刚才复制的授权码</td>
+</tr>
+<tr>
+<td>默认收件邮箱</td>
+<td>提醒发到哪；留空 = 发给发件邮箱自己</td>
+</tr>
+</tbody>
+</table>
+<p>再往下两个开关（勾选 = 开启）：</p>
+<ul>
+<li><strong>材料降价提醒邮件</strong>：价格提醒扫到低于指导价就发</li>
+<li><strong>期望校验邮件</strong>：台账期望跌破阈值 / 缺价时发预警</li>
+</ul>
+<p>填完点 <strong>「保存邮箱配置」</strong>。</p>
+<p><strong>第 3 步：按账户分发（多客户才需要）</strong></p>
+<p>同一个邮箱要给不同客户发不同的信：</p>
+<ol>
+<li>「邮箱配置」卡片下方「按账户分发」区，左边填<strong>账户名</strong>、右边填<strong>收件邮箱</strong> → 点「添加」→ 再点「保存邮箱配置」。</li>
+<li>账户名必须和「账户与凭据」里的 <code>账户名</code>、台账 sheet 名<strong>一字不差</strong>，否则分发不生效（会退回默认收件邮箱）。</li>
+<li>不需要了，右侧「删」掉即可。</li>
+</ol>
+<p><strong>第 4 步：验证链路通不通（不真发信）</strong></p>
+<p>左侧「材料邮件提醒」→ 卡片「立即扫描（价格提醒）」→ 勾上 <strong>「试跑（只扫描看结果，不发邮件）」</strong> → 点「立即扫描」→ 日志末尾出现「邮件正文预览」就说明能发。</p>
+<p>首页「运行状态」里的「发信配置」显示「就绪」，也代表五项必填都齐了。</p>
+<div class="callout tip"><b>提示</b>Cookie 失效的「催更」信不受两个开关键控制，<strong>始终发送</strong>（这是凭据维护信号，别关）。</div>
+<h3 id="s6">2.4 填台账（实时炼金配方.xlsx 怎么填）</h3>
+<p>台账是<strong>所有功能的数据底座</strong>：价格提醒按它的指导价判断命中、期望校验拿它 E 列当基准、缺料分析 / 材料核对按它列的武器找货、炼金期望计算筛完也会往里写。它就是一个普通 Excel 文件，两种形态：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>形态</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>实时炼金配方.xlsx</code></td>
+<td>你的真实台账</td>
+<td><strong>程序读的就是它</strong>；第一次可以直接改它</td>
+</tr>
+<tr>
+<td><code>实时炼金配方_模板.xlsx</code></td>
+<td>表头 + 一条<strong>填好的示例</strong> + 详细填写说明（2 个 sheet）</td>
+<td>格式参考，照它建新账户 sheet</td>
+</tr>
+</tbody>
+</table>
+<p>数据来源两条路：<strong>手工照模板填</strong>，或在「炼金期望计算」页算完 → 勾选配方 → 写入台账（组号自动取全表最大值 +1）。</p>
+<p><strong>表结构：一个 sheet = 一个账户</strong></p>
+<ul>
+<li>sheet 名必须与「配置管理」里的账户名、按账户分发的键<strong>一字不差</strong>（三处对齐，否则邮件发错人）</li>
+<li>一个 sheet 里一行行摞着放配方；列固定 18 列</li>
+</ul>
+<p><strong>18 列逐列说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>填在哪一行</th>
+<th>含义 / 谁在读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A 编号</td>
+<td>配方首行</td>
+<td>组号，同配方内沿用（写入台账时自动递增）——是<strong>组号</strong>，与收藏品编号无关</td>
+</tr>
+<tr>
+<td>B 名字</td>
+<td>配方首行</td>
+<td>给配方起的名，如 <code>3核子+7寒带</code></td>
+</tr>
+<tr>
+<td>C 级别</td>
+<td>配方首行</td>
+<td>材料级别，如 <code>军规级</code>（只在子块首行填）</td>
+</tr>
+<tr>
+<td>D 买入</td>
+<td>配方首行</td>
+<td>你的实际买入成本（10 把合计）</td>
+</tr>
+<tr>
+<td>E 期望</td>
+<td>配方首行</td>
+<td>台账期望值——<strong>期望校验拿实时期望跟它比</strong>，跌破阈值发预警</td>
+</tr>
+<tr>
+<td>F 配比</td>
+<td>收藏品块首行</td>
+<td>本块拿几把，如主块 <code>3</code>、副块 <code>7</code>（同一配方各块合计 10 把）</td>
+</tr>
+<tr>
+<td>G 收藏品</td>
+<td>收藏品块首行</td>
+<td>该块收藏品名，如 <code>核子危机</code>（没有它该块会被跳过）</td>
+</tr>
+<tr>
+<td>H 价格</td>
+<td>收藏品块首行</td>
+<td>该收藏品<strong>指导价</strong>——<strong>价格提醒拿当前价跟它比</strong>，低于即命中</td>
+</tr>
+<tr>
+<td>I 磨损区间</td>
+<td>每行材料</td>
+<td>归一化区间 <code>a-b</code>，如 <code>0-0.75</code>（0 = 崭新出厂，1 = 战痕累累）</td>
+</tr>
+<tr>
+<td>J 实际磨损</td>
+<td>每行材料</td>
+<td>该材料的磨损值（0~1），程序取各行中位数当本块归一磨损</td>
+</tr>
+<tr>
+<td>K~P 武器1~6</td>
+<td>每行材料</td>
+<td>材料名，格式 <code>武器 \| 皮肤</code>，<strong>不带 <code>(久经沙场)</code> 这类磨损档后缀</strong>；一行可并列多把（放不下的换明细行）</td>
+</tr>
+<tr>
+<td>Q 产物磨损</td>
+<td>收藏品块首行</td>
+<td>产物归一化磨损（算产物实际磨损的基准）；留空时程序按「Σ(块目标磨损×配比)/10」自己算</td>
+</tr>
+<tr>
+<td>R 主/副</td>
+<td>收藏品块首行</td>
+<td>主块填 <code>主3</code>、副块填 <code>副7</code>（<code>主</code>/<code>副</code> 开头即可，后面的数字是给人看的）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>行的排布（子块规则）</strong>——这是最容易填错的地方：</p>
+<pre><code class="language-text">编号 名字          级别   买入  期望  配比 收藏品    价格 磨损区间 实际磨损 武器1            武器2                武器3                   产物磨损 主/副
+1    3核子+7寒带   军规级 72.1  86.5  3   核子危机  1.95 0-0.5    0.107    P250 | 交换机     MP5-SD | 协处理器    P90 | 设施系列·底片图    0.0931   主3
+     ← 空 1 行（换收藏品块，还是同一个配方）
+                                          7   寒带      9.4  0-0.75   0.031    AK-47 | 寒翠
+                                                            0-0.68   0.0281   MAC-10 | 白杨丛
+                                                            0-0.6    0.0248   MP5-SD | 黄金榕     XM1014 | 铜斑迷彩
+                                                            0-0.55   0.0227   USP消音版 | 椰风花语
+     ← 空 2 行（开始下一个配方）
+</code></pre>
+<p>上面这条就是随包 <code>实时炼金配方_模板.xlsx</code> 里填好的那条示例，照着它的样子往下填即可。</p>
+<ol>
+<li>一个配方 = <strong>主块 + 空 1 行 + 副块</strong>，各块「配比」加起来 = 10 把材料（例：3 + 7）</li>
+<li>每块<strong>第一行</strong>（组头行）填：编号 / 名字 / 级别 / 买入 / 期望 / 配比 / 收藏品 / 价格 / 产物磨损 / 主副</li>
+<li>组头行以下的<strong>明细行只填 3 类</strong>：磨损区间、实际磨损、武器1~6</li>
+<li><strong>空 1 行 = 换收藏品块（同配方）；空 2 行及以上 = 开新配方</strong>——程序靠空行数分配方，别乱空</li>
+</ol>
+<p><strong>编辑注意</strong></p>
+<ul>
+<li>改台账前先别跑程序（文件被 Excel 占着时任务会提示「请先关闭」）</li>
+<li>保存即生效，下次运行重读，不用重启程序</li>
+<li>台账含个人持仓：<strong>不随分发包外发</strong></li>
+</ul>
+<hr />
+<h2 id="s7">三、七个页面逐个说</h2>
+<h3 id="s8">3.1 首页</h3>
+<p>三张卡：</p>
+<ul>
+<li><strong>运行状态</strong>：订阅状态、账户数（BUFF 可用 n 个）、发信配置是否就绪。缺 <code>爬虫配置.json</code> 时这里会飘黄条提示去配置管理。</li>
+<li><strong>功能</strong>：六张入口卡，点一下直接跳对应页面。</li>
+<li><strong>最近任务</strong>：最近 6 条任务的任务名、状态（运行中 / 完成 / 失败(退出码)）、开始时间、结束时间。长任务跑着的时候可以关掉页面做别的事，回头这里看结果。</li>
+</ul>
+<h3 id="s9">3.2 炼金期望计算</h3>
+<p><strong>干什么</strong>：按你的门槛条件实时拉 BUFF 数据，算上百个配方的利润率，只留达标的，可以直接写进台账。</p>
+<p><strong>怎么跑</strong>：「计算参数」卡里六项填好 → 点「开始计算（联网拉价，需要较长时间）」。</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>填法</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>利润率门槛（只显示高于它的）</td>
+<td>想全看填 <code>0.5</code></td>
+<td><code>1.5</code></td>
+</tr>
+<tr>
+<td>材料等级</td>
+<td>下拉选，选项来自参照表的品级页</td>
+<td>军规级</td>
+</tr>
+<tr>
+<td>主材料把数 a（副材料 = 10 − a）</td>
+<td>下拉 1~5，括号里就是副材料把数</td>
+<td>4（副 6）</td>
+</tr>
+<tr>
+<td>收藏品编号</td>
+<td>逗号分隔，至少 2 个，两个一组配对枚举</td>
+<td><code>6,5</code></td>
+</tr>
+<tr>
+<td>两个材料归一化磨损</td>
+<td>恰好 2 个，第一个绑主材料、第二个绑副材料</td>
+<td><code>0.0142,0.1071</code></td>
+</tr>
+<tr>
+<td>产物归一化磨损</td>
+<td>目标档位上限；输入框下拉给了四档提示</td>
+<td><code>0.07</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>收藏品编号不用背：输入框下面有折叠的 <strong>「收藏品名字 ↔ 编号对照表」</strong>，展开后<strong>点编号直接填进输入框</strong>（点一次加一个）。全量对照表也在附录 C。</li>
+<li>产物磨损下拉四档：<code>0.07</code>（崭新）/ <code>0.15</code>（略磨）/ <code>0.38</code>（久经）/ <code>0.45</code>（破损）。填的是<strong>归一化</strong>磨损，不是皮肤上那个 0.1234。</li>
+</ul>
+<p><strong>过程</strong>：两三分钟到十几分钟不等（编号越多越久），日志框实时刷；触发 BUFF 风控时程序自己放慢，不用管。<strong>每次计算扣 1 次本月炼金次数。</strong></p>
+<p><strong>结果怎么读</strong>：「计算结果」卡出现表格，一行一个达标组合：</p>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#</td>
+<td>序号，写入台账时按它勾选</td>
+</tr>
+<tr>
+<td>勾选框</td>
+<td>表头的框是全选（「缺价格列表」的行不可写，框是灰的）</td>
+</tr>
+<tr>
+<td>配方</td>
+<td>材料构成简写</td>
+</tr>
+<tr>
+<td>利润率 / 总成本 / 总期望</td>
+<td>三个数一起看，别只看利润率</td>
+</tr>
+<tr>
+<td>写入状态</td>
+<td><code>可写入</code> / <code>缺价格列表</code>（有材料没取到价，这种写进台账会算出错）</td>
+</tr>
+</tbody>
+</table>
+<p>同时落盘一份 <code>输出\配方筛选\配方_{等级}_a{a}_{磨损}_{时间}.xlsx</code>，日志在 <code>日志\配方筛选\</code>。</p>
+<p><strong>写台账</strong>（不扣次数）</p>
+<ol>
+<li>勾选要写的配方（表头可全选）。</li>
+<li>勾选目标 sheet（= Steam 号，可多选）。</li>
+<li>点「写入选中的配方到台账」→ 弹确认 → 确定后看下方日志。</li>
+</ol>
+<p>组号自动取全表最大值 +1，按主材料分组；写入前建议先确认勾的行对不对，写错了只能手工删行。</p>
+<div class="callout tip"><b>提示</b>页面提示「参照表暂不可用」→ 先去「订阅管理」确认订阅有效、联网，然后刷新页面（服务会自己重新拉参照表，不用重启）。</div>
+<h3 id="s10">3.3 材料邮件提醒</h3>
+<p>价格提醒和期望校验都在这一页：上面一张状态卡（发信配置 / 订阅），下面四张操作卡。</p>
+<p><strong>卡 1：立即扫描（价格提醒）</strong></p>
+<ul>
+<li>勾「试跑（只扫描看结果，不发邮件）」→ 只扫不发，用来验证凭据和邮箱。</li>
+<li>不勾 → 真扫真发：按账户拆分收件人，正文含命中清单 + <strong>双低优选</strong>（磨损更低且价格更低的按降幅排序）。</li>
+<li>手动点按钮等于强跑，<strong>不受「扫描间隔 / 时刻表」限制</strong>（和定时触发不是一回事）。</li>
+</ul>
+<p>扫描干的事：读台账拿到要盯的材料 → BUFF、悠悠两平台并行取价 → 当前价低于指导价（或低于指导价 N%，看降幅阈值）算命中 → 整理成邮件发出去。</p>
+<div class="callout tip"><b>提示</b>C5 与 Steam 的价格查询代码已实现，但<strong>客户版暂不开放</strong>（客户机缺 C5 凭据与签名依赖，Steam 行情没做过现场验证）。客户版只跑 BUFF / 悠悠。</div>
+<p><strong>卡 2：价格提醒设置</strong>（改完点「保存价格提醒设置」）</p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每天运行时刻</td>
+<td>点「＋ 添加时刻」加一行，用时间框选点（滚轮可 ±15 分钟微调）；最多 12 个。<strong>填了就按时刻表跑，「扫描间隔」失效</strong></td>
+</tr>
+<tr>
+<td>扫描间隔（小时）</td>
+<td>距上次跑完不足这个时长就跳过；<code>0</code> = 不限制，支持 <code>0.5</code> 这类小数</td>
+</tr>
+<tr>
+<td>降幅阈值（%）</td>
+<td>当前价低于指导价百分之几才算命中；<code>0</code> = 低于即提醒</td>
+</tr>
+<tr>
+<td>无命中也发一封「无」邮件</td>
+<td>一件都没命中时，要不要发一封「扫描了什么、都没到价」的汇报</td>
+</tr>
+</tbody>
+</table>
+<p>卡片底部显示「上次扫描：xxxx」，它同时是间隔计时和时刻表判断的依据。</p>
+<div class="callout tip"><b>提示</b>时刻表只是<strong>记录什么时候该跑</strong>，真正到点得靠系统计划任务去触发（见附录 B）。没建计划任务的话，就等于只在点「立即扫描」时才跑。</div>
+<p><strong>卡 3：期望校验</strong>（改完点「保存期望校验设置」）</p>
+<ul>
+<li>勾「试跑（不发邮件、不写历史）」→ 只校验打印。</li>
+<li>不勾 → 真校验真发信，同样不受间隔限制。</li>
+<li>每天校验时刻 / 校验间隔：规则与上面完全一样，两套计时<strong>各自独立</strong>。</li>
+<li>跌破阈值（%）：实时期望低于台账 E 列多少算预警，默认 <code>5</code>。</li>
+<li>平安邮件：全部正常也发一封汇总（默认开）。</li>
+</ul>
+<p>校验干的事：读台账全部配方 → 逐个拉产物实时价重算期望 → 与 E 列比对 →</p>
+<ul>
+<li><strong>预警</strong>：跌破阈值或缺价 → 发信（主要就靠这封）</li>
+<li><strong>平安邮件</strong>：全部正常也发一封汇总</li>
+<li><strong>Cookie 失效</strong>：本轮报告不发（避免把「缺价」当行情问题），只发催更信</li>
+</ul>
+<p>每个配方三种状态：正常 / 预警（跌破）/ 缺价；历史趋势存在 <code>期望历史.json</code>（每配方最多留 30 次）。日志在 <code>日志\期望校验\</code>。</p>
+<p><strong>卡 4：邮箱与分发</strong></p>
+<p>就是个跳转入口，收件人 / SMTP / 授权码 / 按账户分发 / 邮件开关都在「配置管理」页改（同一份配置）。</p>
+<h3 id="s11">3.4 库存记录</h3>
+<p>六张卡，从上到下就是常用顺序。</p>
+<p><strong>卡 1：同步库存 · Steam 通道</strong>（推荐）</p>
+<ol>
+<li>账户下拉选号，括号里会写明「已登录 Steam」还是「未登录」（登录过的后面还带 steamID）。</li>
+<li>没登录过 → 按钮显示「令牌验证器登录」，点它展开表单：</li>
+<li>填 Steam <strong>账号名</strong>（登录名，不是昵称）+ 密码 → 「开始登录」</li>
+<li>页面提示「需要验证码」时，打开<strong>手机 Steam App → 右下角菜单 →「Steam 令牌」→ 令牌验证器</strong>，把 5 位动态码填进页面 → 「提交验证码」</li>
+<li>动态码 30 秒一换；提示「码不对/已过期」就重取一个新的再提交</li>
+<li>登录成功后按钮变成「同步库存（Steam 通道）」，点一下就拉官方库存再写表，结果与游戏内一致。</li>
+<li>
+<p>换号或令牌失效 → 点「重新登录」重走一遍；令牌验证器不可用时，卡片底部「扫码登录（备用）」用手机 Steam App 扫一扫（二维码约 5 分钟内有效）。</p>
+</li>
+<li>
+<p>密码只用于本次换长期令牌：<strong>不保存、不落盘</strong>，填完发起后页面里也立刻清掉。</p>
+</li>
+<li>令牌只存本机（<code>steam_probe\令牌_*.json</code>），只用来读库存，<strong>不操作账号</strong>。</li>
+<li>结果写 <code>输出\库存\库存记录.xlsx</code>（主存储），另存一份带时间戳的快照。</li>
+<li>合并规则：你手工加的行（assetid 留空）永不覆盖；你改过的行以你为准；库存里已卖出的行自动删除。</li>
+<li>防呆：拿错号的凭据、或接口返回的号与所选账户对不上时会拒写，不会污染别的账户的数据。</li>
+</ol>
+<p><strong>卡 2：买卖记录 · BUFF 通道</strong></p>
+<p>选账户（只列 BUFF Cookie 可用的）→「拉取买卖记录（BUFF 通道）」。生成 <code>输出\持仓\持仓账本_&lt;时间&gt;.xlsx</code>（每次一份）+ <code>持仓账本_累计.xlsx</code>（历史总账），含买入笔数/金额、卖出笔数与实收、失败未成交、已平仓盈亏、按月统计。</p>
+<div class="callout tip"><b>提示</b>这个通道<strong>只拉买卖记录</strong>，不拉库存。要用 BUFF Cookie 同步库存得走命令行（附录 A），日常用 Steam 通道就够。</div>
+<p><strong>卡 3：查询库存</strong></p>
+<p>输入关键词（名字模糊匹配，多个逗号分隔，留空 = 全部）→「查询库存」。离线读上次的快照，不联网，所以<strong>必须先同步过一次</strong>。</p>
+<p><strong>卡 4：分析与账本</strong></p>
+<p>两张入口卡，点一下就跑到下方：</p>
+<ul>
+<li><strong>缺料分析</strong>：对着台账 + 库存算每个配方能凑几份、还差什么材料、缺的被几个配方共用；按缺口从多到少排，最上面就是该买的。</li>
+<li><strong>材料核对</strong>：台账材料 vs 库存覆盖情况，看哪把武器一件都没有。</li>
+</ul>
+<p><strong>卡 5：导出客户版</strong></p>
+<p>账户下拉（全部账户 / 单个）+「不筛选（全量）」开关 → 「导出客户版」。</p>
+<ul>
+<li>默认<strong>只收录台账里用到的武器材料</strong>，库存里无关的饰品不进表；勾「不筛选」就全量导出。</li>
+<li>生成 <code>输出\库存\库存记录_客户版.xlsx</code>：三色表头（绿=可改 / 灰=程序内部别动 / 深蓝=自动行情）、冻结首行 + 筛选、附「使用说明」sheet。</li>
+<li>列与主存储一字不差：客户改完<strong>改名回 <code>库存记录.xlsx</code></strong> 就能继续增量同步。</li>
+<li>你手工加的行（assetid 留空）永远保留；台账读取失败时自动退回全量。</li>
+<li>发客户前可以把多余账户 sheet 删掉。</li>
+</ul>
+<p><strong>卡 6：输出目录</strong></p>
+<p>自带文件浏览器，<code>输出\库存\</code> 下的文件直接看：目录点「进入」，文件可「下载」或「打开」（调系统默认程序）。生成完文件找不到，就先来这里。</p>
+<p><strong>直接编辑 <code>库存记录.xlsx</code> 的注意</strong></p>
+<ul>
+<li>一个 sheet = 一个账户；「备注」列随便写，同步永不覆盖。</li>
+<li>加手工行（别的平台/线下买的）：自己加一行，物品名照台账写法填，<code>assetid</code> 列留空 → 永远保留。</li>
+<li>改名 / 改备注以你改的为准；该件卖出后下次同步自动删行。</li>
+<li>编辑时先别跑同步（Excel 占着文件会失败），存盘关掉再同步。</li>
+<li>程序写的 <code>assetid</code> 别动、也别手填数字（会显示成乱码）。</li>
+</ul>
+<h3 id="s12">3.5 开炉工具</h3>
+<p><strong>卡 1：配料寻优（这炉怎么配）</strong></p>
+<ol>
+<li>选账户 → 点「开始寻优」。</li>
+<li>默认会<strong>先自动同步一次该账户库存</strong>（联网，慢）；想快点、用上次快照，就勾「跳过前置扫描（直接用现有快照）」。</li>
+<li>跑完看日志：逐炉列出 10 把具体拿哪些件、磨损怎么分配；凑不满/凑不齐的直接标缺。</li>
+<li>炉单同时落盘：<code>输出\配料寻优_炉单_号&lt;账户&gt;.json</code>（留档）+ <code>配料寻优_炉单.json</code>（最近一次）。</li>
+</ol>
+<p>纪念品材料默认纳入，普通/纪念品可同炉，暗金（StatTrak）不参与。</p>
+<p><strong>卡 2：主材料调价（主价改了，重算副价）</strong></p>
+<ol>
+<li>「组号」填 <code>2:1 2:4</code> 这样（账号:组号，空格分隔，可多个）。</li>
+<li>「乘数」填主材料价格倍数，如 <code>1.13</code>；「买入乘数」可空——空 = 台账「买入」那列<strong>不动</strong>，只重算副价；填了（如 <code>1.13</code>）则买入价也同步乘上去。</li>
+<li>点「① 预览（dry-run，不写入）」→ 看日志里每行的原副价 / 新副价 / 余量变化。</li>
+<li>
+<p>确认没问题，才点「② 正式执行（写入台账）」→ 弹确认 → 确定。</p>
+</li>
+<li>
+<p>任何一行余量会超出 <code>0~0.15</code> 时自动中止不写，日志会指出是哪一行。</p>
+</li>
+<li>跑之前<strong>关掉 Excel</strong>（台账被占用会中止）。</li>
+</ol>
+<h3 id="s13">3.6 订阅管理</h3>
+<ul>
+<li><strong>订阅状态</strong>卡：持有人 / 到期 / 本月炼金次数剩余；未激活时显示「未激活 + 原因」。</li>
+<li><strong>激活</strong>卡：粘贴 <code>BT-</code> 开头的密钥 → 「激活 / 更换密钥」。到期或换机器都用这里。</li>
+</ul>
+<p>细节见 2.1。</p>
+<h3 id="s14">3.7 配置管理</h3>
+<p><strong>卡 1：账户与凭据</strong></p>
+<p>表格列出 账户名 / BUFF / 悠悠 / SteamID64 / 操作。BUFF、悠悠两列显示「可用」或「未填」。</p>
+<ul>
+<li>「＋ 添加账户」：填 4 项 → 保存。账户名必填、唯一、不能含 <code>/</code>。</li>
+<li>「编辑」：改完保存即生效（换 Cookie 就走这里）。</li>
+<li>「删除」：只删这一条账户配置，不动文件里其它配置；台账里对应的 sheet 不会被删。</li>
+</ul>
+<p><strong>卡 2：邮箱配置</strong></p>
+<p>五个输入框 + 两个开关 + 按账户分发（见 2.3），改完点「保存邮箱配置」。</p>
+<p><strong>卡 3：高级：原始 JSON</strong></p>
+<p>整份 <code>爬虫配置.json</code> 的原文，含 SMTP、节流等所有字段。</p>
+<ul>
+<li>「保存整份配置」：语法错误会被拦下并提示，不会写坏。</li>
+<li>「重新载入」：放弃当前改动，从磁盘重读。</li>
+<li>手改前建议先复制一份 <code>爬虫配置.json</code> 备份。</li>
+</ul>
+<hr />
+<h2 id="s15">四、常见问题</h2>
+<ol>
+<li><strong>提示 BUFF Cookie 未配置 / 失效</strong> —— 「配置管理」→ 该账户「编辑」→ 重贴 Cookie → 保存；表格 BUFF 列显示「可用」才算好（抓法见 2.2）。</li>
+<li><strong>「没有利润率 &gt; X 的达标配方」</strong> —— 门槛太高，降到 <code>0.5</code> 再看；或多加几个收藏品编号。</li>
+<li><strong>提示磨损绑定校验失败</strong> —— 产物归一化磨损要≈ 10 把材料磨损的平均值，检查「产物归一化磨损」那一项。</li>
+<li><strong>BUFF 报风控 / 请求频繁</strong> —— 等几分钟再跑，编号多可分批；程序自己也会放慢重试。</li>
+<li><strong>查询 / 缺料提示「库存未扫描」</strong> —— 先去「库存记录」页做一次 Steam 同步。</li>
+<li><strong>双击 exe 窗口一闪而过</strong> —— 正常都会停住等你回车；闪退说明同级缺 <code>爬虫配置.json</code>，放回来即可。</li>
+<li><strong>杀毒软件误报</strong> —— PyInstaller 打包的常见误报，加信任即可。</li>
+<li><strong>收不到邮件</strong> —— 依次查：首页「发信配置」是否就绪；「配置管理」的授权码是不是「邮箱生成的授权码」而不是登录密码；SMTP 服务器与邮箱是否匹配（163 必须 <code>smtp.163.com</code>）；两个邮件开关是否被关。</li>
+<li><strong>邮件提示认证失败（535）</strong> —— QQ / 163 都要先开启 SMTP 服务才能用授权码登录，回邮箱确认服务是「已开启」、授权码是新生成的。</li>
+<li><strong>想确认订阅是否正常</strong> —— 看顶栏右侧状态条，或进「订阅管理」看状态 / 到期 / 剩余次数。</li>
+<li><strong>想看上次扫描 / 校验是什么时候</strong> —— 「材料邮件提醒」页，「价格提醒设置」「期望校验」两张卡底部各有一行。</li>
+<li><strong>提醒跑得太频繁 / 太稀疏</strong> —— 别在计划任务里硬限频率：去「价格提醒设置」改「扫描间隔」或「每天运行时刻」（期望校验同理）。任务触发再高频，程序自己会跳过。</li>
+<li><strong>台账加了新账户 sheet，邮件没发到对应客户</strong> —— 三处对齐：账户名 = 台账 sheet 名 = 按账户分发的键，一字不差。</li>
+<li><strong>换了电脑</strong> —— 拷整个文件夹 → 重新激活（订阅管理）→ Cookie / 邮箱配置跟着 <code>爬虫配置.json</code> 一起过去。</li>
+<li><strong>GitHub 仓库里怎么只有一个「实时炼金配方_模板」</strong> —— 真实台账含个人持仓，特意不入库；模板就是拿来照着填的，第 2 个 sheet「填写说明」有 18 列与子块规则的完整解释。</li>
+<li><strong>配料寻优提示缺库存文件</strong> —— 先在「库存记录」页同步一次（正常情况寻优会自己先同步，出现本提示一般是同步失败了，看日志）。</li>
+<li><strong>主材料调价中止 / 失败</strong> —— 两个常见原因：台账被 Excel 打开（关掉重试）；重算后某行余量会超出 <code>0~0.15</code>（程序自带保护，日志会指出哪一行）。</li>
+<li><strong>提示找不到 <code>数据源\</code></strong> —— 这个目录不能删 / 移 / 改名；丢了就重新解压一份完整包，把它拷回 exe 同级。</li>
+<li><strong>Steam 令牌验证器总提示「重取验证码」</strong> —— 动态码 30 秒一换：看到输入框出现后尽快取码填入；提示不对就重取一个新的再提交。</li>
+<li><strong>扫码登录等不到二维码</strong> —— 约 3~5 秒出现（图落在 <code>steam_probe\登录二维码.png</code>）；一直不出现就看黑窗口里 node 的报错（装了 Steam++ 加速器会自动降级重试，不影响）。</li>
+<li><strong>Steam 同步提示「找不到库存文件」</strong> —— 先在「库存记录」页做一次令牌验证器登录（成功后会把 steamID 记进 <code>爬虫配置.json</code>），再点同步。</li>
+<li><strong>Steam 换号 / 登录失效</strong> —— 「库存记录」页点「重新登录」，或用卡片底部「扫码登录（备用）」。</li>
+<li><strong>不想登录 Steam / 手机没装 App</strong> —— 用 BUFF Cookie 通道同步库存（命令行，附录 A 第一条）；两条通道写同一张 <code>库存记录.xlsx</code>，随时混用。</li>
+<li><strong>浏览器打不开 / 白屏 / 提示「服务连接失败」</strong> —— 黑窗口被关了，重新双击 exe；还不行就看黑窗口打印的实际端口，手动访问 <code>http://127.0.0.1:端口/</code>。</li>
+<li><strong>同一任务点了没反应 / 提示「正在运行中」</strong> —— 上一个还没跑完，等它结束或点任务面板右上「停止」。</li>
+<li><strong>改完页面没生效</strong> —— 配置类改动要点对应卡片的「保存」按钮；<code>web\</code> 里的界面文件改过的话，按 <code>Ctrl + F5</code> 强刷。</li>
+</ol>
+<hr />
+<h2 id="s16">五、文件都长在哪（exe 同级）</h2>
+<table>
+<thead>
+<tr>
+<th>文件/目录</th>
+<th>作用</th>
+<th>注意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BuffToolkit.exe</code></td>
+<td>主程序</td>
+<td>双击即用</td>
+</tr>
+<tr>
+<td><code>爬虫配置.json</code></td>
+<td>全部配置与凭据（账户 / 邮箱 / 阈值）</td>
+<td><strong>别外发</strong>；页面改完自动写这里</td>
+</tr>
+<tr>
+<td><code>实时炼金配方.xlsx</code></td>
+<td>台账（一个 sheet 一个账户，填法见 2.4）</td>
+<td>编辑时先别跑任务</td>
+</tr>
+<tr>
+<td><code>实时炼金配方_模板.xlsx</code></td>
+<td>台账模板（表头 + 填写说明，不含数据）</td>
+<td>照它建新账户 sheet</td>
+</tr>
+<tr>
+<td><code>数据源\</code></td>
+<td>程序参照表（皮肤 / 收藏品 / 品级，约 14MB）</td>
+<td><strong>不要删、不要移</strong>；升级时直接覆盖</td>
+</tr>
+<tr>
+<td><code>收藏品编号固定.json</code></td>
+<td>收藏品编号的固定映射（补参照表的漏）</td>
+<td>不要改</td>
+</tr>
+<tr>
+<td><code>配方简称.json</code></td>
+<td>台账里配方简称的对照</td>
+<td>可按需增补</td>
+</tr>
+<tr>
+<td><code>node\</code></td>
+<td>Steam 通道运行时（node.exe + 依赖，约 137MB）</td>
+<td><strong>不要删</strong>，Steam 登录/同步靠它</td>
+</tr>
+<tr>
+<td><code>steam_probe\</code></td>
+<td>Steam 通道脚本；登录后 <code>令牌_*.json</code> 存这里；<code>验证码.txt</code> 是登录临时文件</td>
+<td>令牌 = 登录凭据，<strong>别外发</strong>；<code>验证码.txt</code> 用完可删</td>
+</tr>
+<tr>
+<td><code>web\</code></td>
+<td>浏览器界面的全部文件（html / css / js）</td>
+<td><strong>不要删</strong>；改界面只改这里，刷新即生效，升级会被覆盖</td>
+</tr>
+<tr>
+<td><code>_internal\</code></td>
+<td>程序的 Python 运行时与依赖</td>
+<td><strong>不要动</strong>，删了就起不来</td>
+</tr>
+<tr>
+<td><code>输出\</code></td>
+<td>配方 Excel / 库存主存储与快照 / 客户版库存 / 持仓账本 / 炉单 json</td>
+<td>可定期清理旧文件</td>
+</tr>
+<tr>
+<td><code>日志\</code></td>
+<td>每次运行的日志（配方筛选 / 价格提醒 / 期望校验 / 库存 / 持仓 / 配料寻优 分目录）</td>
+<td>出问题先看它</td>
+</tr>
+<tr>
+<td><code>缓存\</code></td>
+<td>查询缓存</td>
+<td>可删，会自动重建</td>
+</tr>
+<tr>
+<td><code>BuffToolkit说明.html</code></td>
+<td>本说明（双击浏览器打开）</td>
+<td>也可 <code>Ctrl + P</code> 打印存 PDF</td>
+</tr>
+<tr>
+<td><code>BuffToolkit说明.md</code></td>
+<td>同内容 Markdown 源</td>
+<td>用编辑器看</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="s17">附录 A 命令行直调（一般用不到）</h2>
+<p>页面能做的，这里都能做一遍；用途只有三个：建计划任务、批处理、出问题时排查。</p>
+<pre><code class="language-text">BuffToolkit.exe                          # 双击的默认行为：起服务 + 开浏览器
+BuffToolkit.exe --cli                    # 老的控制台菜单
+BuffToolkit.exe --web --port 9000        # 指定起始端口
+
+BuffToolkit.exe --calc                   # 炼金期望计算（页面就是走这条）
+BuffToolkit.exe --price                  # 扫材料发邮件（客户版 = BUFF/悠悠）
+BuffToolkit.exe --price --dry-run        # 只扫不发，验证凭据和邮箱
+BuffToolkit.exe --price --force          # 无视间隔和时刻表，立刻扫一次
+BuffToolkit.exe --platform BUFF          # 只跑单平台（客户版仅 BUFF / UU）
+BuffToolkit.exe --expect                 # 期望校验 + 发预警
+BuffToolkit.exe --expect --dry-run       # 只校验打印，不发信
+BuffToolkit.exe --expect --acct 客户1,客户2   # 只校验指定账户（= sheet 名）
+
+BuffToolkit.exe --stock --via steam --probe --account 客户1   # Steam 通道同步（页面同款）
+BuffToolkit.exe --stock --via buff --account 客户1            # BUFF Cookie 通道同步（页面没有，备用）
+BuffToolkit.exe --steam-login --code --account 客户1          # 令牌验证器登录（密码走环境变量）
+BuffToolkit.exe --steam-login --account 客户1                 # 扫码登录（加 --force 强制重扫）
+
+BuffToolkit.exe --query --help           # 离线查询全部参数（磨损档/价格区间/排序/导出）
+BuffToolkit.exe --match --help           # 缺料分析全部参数
+BuffToolkit.exe --cover --help           # 材料核对全部参数
+BuffToolkit.exe --ledger --account 客户1 # 买卖记录 → 输出\持仓\
+BuffToolkit.exe --optimize --account 客户1 [--group 2:1] [--no-scan]
+BuffToolkit.exe --reprice --group 2:1 --factor 1.13 [--dry-run]
+</code></pre>
+<ul>
+<li><code>--platform C5</code> / <code>--platform Steam</code> 在客户版会被拦下并提示「暂不开放」（代码保留，凭据与验证没到位）。</li>
+<li>不带 <code>--account</code> 的 <code>--stock</code> = 同步配置里全部账户。</li>
+<li>令牌验证器登录的账号密码走环境变量 <code>STEAM_ACCOUNT</code> / <code>STEAM_PASSWORD</code>，动态码写 <code>steam_probe\验证码.txt</code>——这两个只有脚本自动化才用，手工登录走页面。</li>
+</ul>
+<hr />
+<h2 id="s18">附录 B 计划任务（想全自动时看）</h2>
+<p>页面里的「每天运行时刻」只是记录该跑的时间点，<strong>真正到点触发要靠系统计划任务</strong>。以「每 10 分钟看一眼、但按设置节流」为例：</p>
+<ol>
+<li><code>Win + S</code> 搜 <strong>任务计划程序</strong>，打开。</li>
+<li>右侧点 <strong>创建基本任务</strong>。</li>
+<li>名称填 <code>BUFF降价提醒</code> → 下一步。</li>
+<li>触发器选 <strong>每天</strong> → 下一步，随便设个起始时间（后面再改）。</li>
+<li>操作选 <strong>启动程序</strong> → 下一步。</li>
+<li>三项填法：</li>
+<li><strong>程序</strong>：浏览选到 <code>BuffToolkit.exe</code></li>
+<li><strong>参数</strong>：<code>--price</code></li>
+<li><strong>起始位置</strong>：选 <code>BuffToolkit.exe</code> 所在文件夹</li>
+<li>完成后，任务列表里右键该任务 → 属性 → 「触发器」→ 编辑 → 勾「重复任务间隔」<code>10 分钟</code>，持续时间「无限期」。</li>
+<li>想同时做期望校验，同法再建一个，参数换 <code>--expect</code>。</li>
+</ol>
+<p><strong>搭配建议</strong></p>
+<ul>
+<li>触发频率设得比间隔高没关系：程序按「扫描间隔」或「每天运行时刻」自己判断跑不跑，不会重复发信。</li>
+<li>想立刻强跑一次：参数加 <code>--force</code>。</li>
+<li>每次运行结果看 <code>日志\</code> 下对应目录的最新文件。</li>
+<li>计划任务跑的时候不需要浏览器，但<strong>需要程序目录完整</strong>（<code>数据源\</code>、<code>node\</code>、<code>steam_probe\</code> 都在）。</li>
+</ul>
+<hr />
+<h2 id="s19">附录 C 收藏品编号速查</h2>
+<p>「炼金期望计算」页的编号输入框下面有可点的对照表（点编号自动填入），这里是同一份数据的文字版（全量 87 个，来自平台武器参照表）。台账「收藏品」列可写简称，如「墨彩」即「墨彩收藏品」；死亡游乐园固定 11 = 2024 版，老版 81 少见。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>收藏品</th>
+<th>编号</th>
+<th>收藏品</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2018 炼狱小镇收藏品</td>
+<td>45</td>
+<td>裂空武器箱</td>
+</tr>
+<tr>
+<td>2</td>
+<td>阿拉伯式花纹收藏品</td>
+<td>46</td>
+<td>“狂牙大行动”武器箱</td>
+</tr>
+<tr>
+<td>3</td>
+<td>谍影收藏品</td>
+<td>47</td>
+<td>蛇噬武器箱</td>
+</tr>
+<tr>
+<td>4</td>
+<td>墨彩收藏品</td>
+<td>48</td>
+<td>“激流大行动”武器箱</td>
+</tr>
+<tr>
+<td>5</td>
+<td>哈乐昆收藏品</td>
+<td>49</td>
+<td>反冲武器箱</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2025 列车停放站收藏品</td>
+<td>50</td>
+<td>变革武器箱</td>
+</tr>
+<tr>
+<td>7</td>
+<td>热辐射收藏品</td>
+<td>51</td>
+<td>阿努比斯收藏包</td>
+</tr>
+<tr>
+<td>8</td>
+<td>攀升收藏品</td>
+<td>52</td>
+<td>千瓦武器箱</td>
+</tr>
+<tr>
+<td>9</td>
+<td>寒带收藏品</td>
+<td>53</td>
+<td>画廊武器箱</td>
+</tr>
+<tr>
+<td>10</td>
+<td>狩猎运动收藏品</td>
+<td>54</td>
+<td>热潮武器箱</td>
+</tr>
+<tr>
+<td>11</td>
+<td>死亡游乐园2024收藏品</td>
+<td>55</td>
+<td>封装的创世终端机</td>
+</tr>
+<tr>
+<td>12</td>
+<td>平面设计收藏品</td>
+<td>56</td>
+<td>封装的毁灭之手终端机</td>
+</tr>
+<tr>
+<td>13</td>
+<td>幻彩武器箱</td>
+<td>57</td>
+<td>梦魇武器箱</td>
+</tr>
+<tr>
+<td>14</td>
+<td>幻彩 3 号武器箱</td>
+<td>58</td>
+<td>圣马克镇收藏品</td>
+</tr>
+<tr>
+<td>15</td>
+<td>弯曲猎手武器箱</td>
+<td>59</td>
+<td>运河水城收藏品</td>
+</tr>
+<tr>
+<td>16</td>
+<td>反恐精英武器箱</td>
+<td>60</td>
+<td>挪威人收藏品</td>
+</tr>
+<tr>
+<td>17</td>
+<td>反恐精英 2 号武器箱</td>
+<td>61</td>
+<td>军火交易收藏品</td>
+</tr>
+<tr>
+<td>18</td>
+<td>反恐精英 3 号武器箱</td>
+<td>62</td>
+<td>英勇收藏品</td>
+</tr>
+<tr>
+<td>19</td>
+<td>幻彩 2 号武器箱</td>
+<td>63</td>
+<td>军火交易 2 号收藏品</td>
+</tr>
+<tr>
+<td>20</td>
+<td>伽玛 2 号武器箱</td>
+<td>64</td>
+<td>炙热沙城收藏品</td>
+</tr>
+<tr>
+<td>21</td>
+<td>伽玛武器箱</td>
+<td>65</td>
+<td>雨林遗迹收藏品</td>
+</tr>
+<tr>
+<td>22</td>
+<td>手套武器箱</td>
+<td>66</td>
+<td>殒命大厦收藏品</td>
+</tr>
+<tr>
+<td>23</td>
+<td>猎杀者武器箱</td>
+<td>67</td>
+<td>炼狱小镇收藏品</td>
+</tr>
+<tr>
+<td>24</td>
+<td>“英勇大行动”武器箱</td>
+<td>68</td>
+<td>佣兵训练营收藏品</td>
+</tr>
+<tr>
+<td>25</td>
+<td>“突围大行动”武器箱</td>
+<td>69</td>
+<td>核子危机收藏品</td>
+</tr>
+<tr>
+<td>26</td>
+<td>“九头蛇大行动”武器箱</td>
+<td>70</td>
+<td>办公室收藏品</td>
+</tr>
+<tr>
+<td>27</td>
+<td>“凤凰大行动”武器箱</td>
+<td>71</td>
+<td>仓库突击收藏品</td>
+</tr>
+<tr>
+<td>28</td>
+<td>“先锋大行动”武器箱</td>
+<td>72</td>
+<td>无畏收藏品</td>
+</tr>
+<tr>
+<td>29</td>
+<td>“野火大行动”武器箱</td>
+<td>73</td>
+<td>炙热沙城 II 收藏品</td>
+</tr>
+<tr>
+<td>30</td>
+<td>左轮武器箱</td>
+<td>74</td>
+<td>列车停放站收藏品</td>
+</tr>
+<tr>
+<td>31</td>
+<td>暗影武器箱</td>
+<td>75</td>
+<td>荒漠迷城收藏品</td>
+</tr>
+<tr>
+<td>32</td>
+<td>光谱2号武器箱</td>
+<td>76</td>
+<td>意大利小镇收藏品</td>
+</tr>
+<tr>
+<td>33</td>
+<td>光谱武器箱</td>
+<td>77</td>
+<td>湖畔激战收藏品</td>
+</tr>
+<tr>
+<td>34</td>
+<td>冬季攻势武器箱</td>
+<td>78</td>
+<td>安全处所收藏品</td>
+</tr>
+<tr>
+<td>35</td>
+<td>电竞 2013 武器箱</td>
+<td>79</td>
+<td>军火交易 3 号收藏品</td>
+</tr>
+<tr>
+<td>36</td>
+<td>电竞 2013 冬季武器箱</td>
+<td>80</td>
+<td>金库危机收藏品</td>
+</tr>
+<tr>
+<td>37</td>
+<td>电竞 2014 夏季武器箱</td>
+<td>81</td>
+<td>死亡游乐园收藏品</td>
+</tr>
+<tr>
+<td>38</td>
+<td>命悬一线武器箱</td>
+<td>82</td>
+<td>古堡激战收藏品</td>
+</tr>
+<tr>
+<td>39</td>
+<td>地平线武器箱</td>
+<td>83</td>
+<td>行李仓库收藏品</td>
+</tr>
+<tr>
+<td>40</td>
+<td>头号特训武器箱</td>
+<td>84</td>
+<td>死城之谜收藏品</td>
+</tr>
+<tr>
+<td>41</td>
+<td>棱彩武器箱</td>
+<td>85</td>
+<td>神魔收藏品</td>
+</tr>
+<tr>
+<td>42</td>
+<td>反恐精英20周年武器箱</td>
+<td>86</td>
+<td>解体厂收藏品</td>
+</tr>
+<tr>
+<td>43</td>
+<td>“裂网大行动”武器箱</td>
+<td>87</td>
+<td>旭日收藏品</td>
+</tr>
+<tr>
+<td>44</td>
+<td>棱彩2号武器箱</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p class="muted">BuffToolkit v2.0 · 本文件可直接双击打开或打印（Ctrl+P 存 PDF）</p>
+</div>
+</body>
+</html>

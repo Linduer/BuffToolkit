@@ -1,0 +1,36 @@
+# BuffToolkit（CS 炼金工具箱）
+
+围绕 **CS2 汰换合同（炼金）** 的桌面工具：实时拉取 BUFF 价格、按利润率筛选配方、维护 Excel 台账、材料到价邮件提醒、库存同步与缺料分析、配料寻优。所有功能都在**本地浏览器界面**里操作，双击 `BuffToolkit.exe` 即可使用。
+
+## 下载
+
+程序本体（免安装，Windows 64 位）请到 [**Releases**](https://github.com/Linduer/BuffToolkit/releases) 下载最新的 `BuffToolkit-v2.0-win64.zip`，解压后双击 `BuffToolkit.exe` 使用。
+
+> 本仓库只存放说明文档、界面源码与配置模板；完整程序（exe + 运行时）体积较大，统一放在 Releases。
+
+## 快速开始（四步走）
+
+1. **激活订阅**：订阅管理页粘贴 `BT-` 开头的密钥 →「激活 / 更换密钥」
+2. **添加账户**：配置管理页添加 BUFF 账户，按提示粘贴浏览器 F12 复制的 Cookie
+3. **配置邮箱**（需要收邮件才做）：配置管理 → 邮箱配置
+4. **填台账**：用 `实时炼金配方_模板.xlsx` 建立自己的配方台账
+
+详细的图文说明见 [BuffToolkit说明.md](BuffToolkit说明.md)（同目录有网页版 `BuffToolkit说明.html`）。
+
+## 仓库目录
+
+```
+BuffToolkit说明.md / .html   # 完整使用说明（推荐先看）
+实时炼金配方_模板.xlsx         # 台账空模板
+爬虫配置.json                 # 账户 / 邮箱 / 平台参数模板（占位符，填自己的 Cookie）
+配方简称.json                 # 配方简称映射
+收藏品编号固定.json            # 收藏品编号速查表
+web/                         # 浏览器界面源码（纯静态 HTML/JS/CSS）
+steam_probe/                 # Steam 库存探测脚本（含 配置.example.json 模板）
+数据源/                       # ByMykel CS2-Api 皮肤与收藏品 JSON + 补充表
+```
+
+## 安全提示
+
+- `爬虫配置.json`、`steam_probe/配置.json` 里会存放你的平台 Cookie / Steam 账号凭据，**只在本机使用，切勿公开上传或发给他人**（本仓库中的均为占位符模板）。
+- 程序只在本机 `127.0.0.1` 起服务，外部访问不到。

@@ -1,0 +1,53 @@
+{
+    "accounts": [
+        {
+            "name": "客户1",
+            "buff_cookie": "请粘贴浏览器 F12 复制的完整 Cookie",
+            "youpin_token": "可留空"
+        }
+    ],
+    "buff": {
+        "base_url": "https://buff.163.com/api/market/goods",
+        "game": "csgo",
+        "page_size": 80,
+        "request_delay": [
+            3,
+            8
+        ]
+    },
+    "youpin": {
+        "cookie": "悠悠爬虫暂不启用，可留占位",
+        "base_url": "https://h5.youpin898.com/api/commodity",
+        "request_delay": [
+            2,
+            5
+        ]
+    },
+    "c5": {
+        "cookie": "请粘贴浏览器 F12 复制的完整 Cookie",
+        "token": "请粘贴浏览器 F12 里 authorization: Bearer 后面那一串",
+        "base_url": "https://www.c5game.com/napi/trade/steamtrade/sga",
+        "request_delay": [
+            6,
+            12
+        ]
+    },
+    "output_dir": "爬取数据",
+    "schedule_hours": 6,
+    "price": {
+        "min_interval_hours": 0,
+        "min_drop_pct": 0,
+        "send_when_empty": false
+    },
+    "expect": {
+        "min_interval_hours": 0
+    },
+    "email": {
+        "smtp_server": "smtp.qq.com",
+        "smtp_port": 465,
+        "sender": "YOUR_EMAIL@qq.com",
+        "auth_code": "YOUR_AUTH_CODE",
+        "to": "YOUR_EMAIL@qq.com",
+        "sheet_to": {}
+    }
+}

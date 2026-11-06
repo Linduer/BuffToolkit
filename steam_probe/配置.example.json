@@ -1,0 +1,6 @@
+{
+  "_说明": "复制本文件为 配置.json 再填写。此文件含账号凭据，切勿外传/提交。",
+  "accountName": "你的 Steam 账号名（登录名，不是昵称）",
+  "password": "你的 Steam 密码",
+  "steamGuardCode": ""
+}
