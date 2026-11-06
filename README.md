@@ -2,9 +2,11 @@
 
 围绕 **CS2 汰换合同（炼金）** 的桌面工具：实时拉取 BUFF 价格、按利润率筛选配方、维护 Excel 台账、材料到价邮件提醒、库存同步与缺料分析、配料寻优。所有功能都在**本地浏览器界面**里操作，双击 `BuffToolkit.exe` 即可使用。
 
+当前版本：**v2.1**（见 [VERSION](VERSION)，更新日志见文末）
+
 ## 下载
 
-程序本体（免安装，Windows 64 位）请到 [**Releases**](https://github.com/Linduer/BuffToolkit/releases) 下载最新的 `BuffToolkit-v2.0-win64.zip`，解压后双击 `BuffToolkit.exe` 使用。
+程序本体（免安装，Windows 64 位）请到 [**Releases**](https://github.com/Linduer/BuffToolkit/releases) 下载最新版的 `BuffToolkit-v*-win64.zip`，解压后双击 `BuffToolkit.exe` 使用。
 
 > 本仓库只存放说明文档、界面源码与配置模板；完整程序（exe + 运行时）体积较大，统一放在 Releases。
 
@@ -34,3 +36,8 @@ steam_probe/                 # Steam 库存探测脚本（含 配置.example.jso
 
 - `爬虫配置.json`、`steam_probe/配置.json` 里会存放你的平台 Cookie / Steam 账号凭据，**只在本机使用，切勿公开上传或发给他人**（本仓库中的均为占位符模板）。
 - 程序只在本机 `127.0.0.1` 起服务，外部访问不到。
+
+## 更新日志
+
+- **v2.1**（2026-11-07）：程序加固——期望计算、取价、磨损判定、台账读写等核心模块由字节码改为原生编译（.pyd），显著提高逆向门槛；修复多槽位配方枚举缺少 `product` 导入的潜在错误；台账模板更新收藏品编号对照表。
+- **v2.0**（2026-11-06）：首个公开发布版本。
