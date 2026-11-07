@@ -20,7 +20,10 @@ export async function render(view) {
       statBox("本月炼金次数", sub.local ? "不限" : (sub.left >= 0 ? `剩余 ${sub.left} / ${sub.quota}` : "—"), ""))));
 
   /* ---------- 参数表单 ---------- */
-  const ratioIn = h("input", { class: "inp", value: meta.ratio_default ?? 0.5 });
+  // ★ 利润率门槛记忆（2026-11-07）：客户常用门槛各不相同，取上次填的值（localStorage），
+  //   没有才回落 config 默认（meta.ratio_default，当前 1.2）。点「开始计算」时保存。
+  const ratioIn = h("input", { class: "inp",
+    value: (() => { const v = parseFloat(localStorage.getItem("bt_ratio")); return isNaN(v) ? (meta.ratio_default ?? 0.5) : v; })() });
   const raritySel = h("select", { class: "inp" },
     meta.rarities.map(r => h("option", { value: r, text: r })));
   const aSel = h("select", { class: "inp narrow", style: "max-width:120px" },
@@ -48,6 +51,7 @@ export async function render(view) {
     const ratio = parseFloat(ratioIn.value);
     const pw = parseFloat(pwIn.value);
     if (isNaN(ratio) || ratio < 0) return toast("利润率门槛要填数字", "err");
+    localStorage.setItem("bt_ratio", String(ratio));   // 记住本次门槛，下次进页面自动带上
     if (ids.length < 2 || ids.some(isNaN)) return toast("收藏品编号至少 2 个（逗号分隔的整数）", "err");
     if (wears.length !== 2 || wears.some(isNaN)) return toast("材料磨损必须恰好 2 个数字", "err");
     if (isNaN(pw) || pw <= 0 || pw > 1) return toast("产物磨损要填 0~1 的数字", "err");
